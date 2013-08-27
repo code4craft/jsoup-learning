@@ -1067,7 +1067,9 @@ public class Element extends Node {
     }
 
     void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out) {
-        if (accum.length() > 0 && out.prettyPrint() && (tag.formatAsBlock() || (parent() != null && parent().tag().formatAsBlock()) || out.outline()) )
+        if (accum.length() > 0 && out.prettyPrint()
+                && (tag.formatAsBlock() || (parent() != null && parent().tag().formatAsBlock()) || out.outline()) )
+            //换行并调整缩进
             indent(accum, depth, out);
         accum
                 .append("<")
@@ -1085,6 +1087,7 @@ public class Element extends Node {
             if (out.prettyPrint() && (!childNodes.isEmpty() && (
                     tag.formatAsBlock() || (out.outline() && (childNodes.size()>1 || (childNodes.size()==1 && !(childNodes.get(0) instanceof TextNode))))
             )))
+                //换行并调整缩进
                 indent(accum, depth, out);
             accum.append("</").append(tagName()).append(">");
         }

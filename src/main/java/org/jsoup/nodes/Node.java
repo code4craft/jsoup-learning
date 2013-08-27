@@ -565,6 +565,7 @@ public abstract class Node implements Cloneable {
     }
 
     protected void indent(StringBuilder accum, int depth, Document.OutputSettings out) {
+        //out.indentAmount()是缩进长度，默认是1
         accum.append("\n").append(StringUtil.padding(depth * out.indentAmount()));
     }
 

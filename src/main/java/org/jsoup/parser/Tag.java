@@ -157,6 +157,7 @@ public class Tag {
 
     /**
      * Get if this tag represents a control associated with a form. E.g. input, textarea, output
+     *
      * @return if associated with a form
      */
     public boolean isFormListed() {
@@ -165,6 +166,7 @@ public class Tag {
 
     /**
      * Get if this tag represents an element that should be submitted with a form. E.g. input, option
+     *
      * @return if submittable with a form
      */
     public boolean isFormSubmittable() {
@@ -218,6 +220,7 @@ public class Tag {
 
     // internal static initialisers:
     // prepped from http://www.w3.org/TR/REC-html40/sgml/dtd.html and other sources
+    //block tags，需要换行
     private static final String[] blockTags = {
             "html", "head", "body", "frameset", "script", "noscript", "style", "meta", "link", "title", "frame",
             "noframes", "section", "nav", "aside", "hgroup", "header", "footer", "p", "h1", "h2", "h3", "h4", "h5", "h6",
@@ -225,6 +228,7 @@ public class Tag {
             "del", "s", "dl", "dt", "dd", "li", "table", "caption", "thead", "tfoot", "tbody", "colgroup", "col", "tr", "th",
             "td", "video", "audio", "canvas", "details", "menu", "plaintext"
     };
+    //inline tags，无需换行
     private static final String[] inlineTags = {
             "object", "base", "font", "tt", "i", "b", "u", "big", "small", "em", "strong", "dfn", "code", "samp", "kbd",
             "var", "cite", "abbr", "time", "acronym", "mark", "ruby", "rt", "rp", "a", "img", "br", "wbr", "map", "q",
@@ -232,6 +236,7 @@ public class Tag {
             "option", "legend", "datalist", "keygen", "output", "progress", "meter", "area", "param", "source", "track",
             "summary", "command", "device"
     };
+    //emptyTags是不能有内容的标签，这类标签都是可以自闭合的
     private static final String[] emptyTags = {
             "meta", "link", "base", "frame", "img", "br", "wbr", "embed", "hr", "input", "keygen", "col", "command",
             "device"
@@ -240,6 +245,7 @@ public class Tag {
             "title", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "address", "li", "th", "td", "script", "style",
             "ins", "del", "s"
     };
+    //在这些标签里，需要保留空格
     private static final String[] preserveWhitespaceTags = {
             "pre", "plaintext", "title", "textarea"
     };

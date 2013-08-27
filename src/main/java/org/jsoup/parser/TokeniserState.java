@@ -1,9 +1,15 @@
 package org.jsoup.parser;
 
 /**
+ * 词法分析状态机。
  * States and transition activations for the Tokeniser.
  */
 enum TokeniserState {
+    /**
+     * 初始状态,什么层级都没有的状态
+     * ⬇
+     *   <xxx></xxx>
+     */
     Data {
         // in data state, gather characters until a character reference or tag is found
         void read(Tokeniser t, CharacterReader r) {
@@ -28,6 +34,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * HTML实体转义的状态
+     * ⬇
+     * &amp;
+     */
     CharacterReferenceInData {
         // from & in data
         void read(Tokeniser t, CharacterReader r) {
@@ -134,6 +145,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 打开的tag
+     * ⬇
+     * <div id="me"></div>
+     */
     TagOpen {
         // from < in data
         void read(Tokeniser t, CharacterReader r) {
@@ -944,6 +960,14 @@ enum TokeniserState {
             t.advanceTransition(Data);
         }
     },
+    /**
+     * HTML定义或者注释的开始
+     *  ⬇
+     * <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     *  ⬇
+     * <!-- comments -->
+     * ⬇
+     */
     MarkupDeclarationOpen {
         void read(Tokeniser t, CharacterReader r) {
             if (r.matchConsume("--")) {
@@ -962,6 +986,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 注释开始
+     *  ⬇
+     * <!-- comments -->
+     */
     CommentStart {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -990,6 +1019,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 注释开始的横线
+     *   ⬇
+     * <!-- comments -->
+     */
     CommentStartDash {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1018,6 +1052,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 注释内容
+     *      ⬇
+     * <!-- comments -->
+     */
     Comment {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.current();
@@ -1040,6 +1079,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 注释结束的横线
+     *               ⬇
+     * <!-- comments -->
+     */
     CommentEndDash {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1063,6 +1107,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 注释结束
+     *                 ⬇
+     * <!-- comments -->
+     */
     CommentEnd {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1096,6 +1145,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     * 非标准注释？
+     *                 ⬇
+     * <!-- comments --!>
+     */
     CommentEndBang {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1124,6 +1178,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *           ⬇
+     * <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     Doctype {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1148,6 +1207,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *           ⬇
+     * <!DOCTYPE  html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     BeforeDoctypeName {
         void read(Tokeniser t, CharacterReader r) {
             if (r.matchesLetter()) {
@@ -1182,6 +1246,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *            ⬇
+     * <!DOCTYPE  html  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     DoctypeName {
         void read(Tokeniser t, CharacterReader r) {
             if (r.matchesLetter()) {
@@ -1217,6 +1286,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                ⬇
+     * <!DOCTYPE  html  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     AfterDoctypeName {
         void read(Tokeniser t, CharacterReader r) {
             if (r.isEmpty()) {
@@ -1243,6 +1317,11 @@ enum TokeniserState {
 
         }
     },
+    /**
+     *
+     *                        ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     AfterDoctypePublicKeyword {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1283,6 +1362,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                         ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     BeforeDoctypePublicIdentifier {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1320,6 +1404,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                         ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     DoctypePublicIdentifier_doubleQuoted {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1376,6 +1465,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                                                                 ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     AfterDoctypePublicIdentifier {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1414,6 +1508,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                                                                  ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     BetweenDoctypePublicAndSystemIdentifiers {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1528,6 +1627,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                                                                   ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     DoctypeSystemIdentifier_doubleQuoted {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
@@ -1584,6 +1688,11 @@ enum TokeniserState {
             }
         }
     },
+    /**
+     *
+     *                                                                                                                          ⬇
+     * <!DOCTYPE  html  PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     */
     AfterDoctypeSystemIdentifier {
         void read(Tokeniser t, CharacterReader r) {
             char c = r.consume();
