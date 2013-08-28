@@ -13,7 +13,7 @@ class Tokeniser {
     private CharacterReader reader; // html input
     private ParseErrorList errors; // errors found while tokenising
 
-    private TokeniserState state = TokeniserState.Data; // current tokenisation state
+    private ITokeniserState state = TokeniserState.Data; // current tokenisation state
     private Token emitPending; // the token we are about to emit on next read
     private boolean isEmitPending = false;
     private StringBuilder charBuffer = new StringBuilder(); // buffers characters to output as one token
@@ -82,15 +82,15 @@ class Tokeniser {
         charBuffer.append(c);
     }
 
-    TokeniserState getState() {
+    ITokeniserState getState() {
         return state;
     }
 
-    void transition(TokeniserState state) {
+    void transition(ITokeniserState state) {
         this.state = state;
     }
 
-    void advanceTransition(TokeniserState state) {
+    void advanceTransition(ITokeniserState state) {
         reader.advance();
         this.state = state;
     }
@@ -196,12 +196,12 @@ class Tokeniser {
         return lastStartTag.tagName;
     }
 
-    void error(TokeniserState state) {
+    void error(ITokeniserState state) {
         if (errors.canAddError())
             errors.add(new ParseError(reader.pos(), "Unexpected character '%s' in input state [%s]", reader.current(), state));
     }
 
-    void eofError(TokeniserState state) {
+    void eofError(ITokeniserState state) {
         if (errors.canAddError())
             errors.add(new ParseError(reader.pos(), "Unexpectedly reached end of file (EOF) in input state [%s]", state));
     }

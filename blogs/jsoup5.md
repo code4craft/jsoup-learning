@@ -8,8 +8,24 @@ Jsoup代码解读之五-parser(中)
 
 * `Parser`
 
-	Jsoup parser的入口facade，封装了常用的parse静态方法。可以设置`maxErrors`，用于收集错误记录，默认是0，即不收集。我写了一个[`PageErrorChecker`]()
+	Jsoup parser的入口facade，封装了常用的parse静态方法。可以设置`maxErrors`，用于收集错误记录，默认是0，即不收集。与之相关的类有`ParseError`,`ParseErrorList`。基于这个功能，我写了一个[`PageErrorChecker`](https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning/parser)来对页面做语法检查，并输出语法错误。
+
+* `Token` 
 	
+	保存单个的词法分析结果。Token是一个抽象类，它的实现有`Doctype`,`StartTag`,`EndTag`,`Comment`,`Character`,`EOF`6种，对应6种词法类型。
+	
+* `Tokeniser` 
+
+	保存词法分析过程的状态及结果。比较重要的两个字段是`state`和`emitPending`，前者保存状态，后者保存输出。其次还有`tagPending`/`doctypePending`/`commentPending`，保存还没有填充完整的Token。
+	
+* `CharacterReader`
+
+	对读取字符的逻辑的封装，用于Tokenize时候的字符输入。CharacterReader包含了类似NIO里ByteBuffer的`consume()`、`unconsume()`、`mark()`、`rewindToMark()`，还有高级的`consumeTo()`这样的用法。
+	
+* `TokeniserState`
+
+ 	用枚举实现的词法分析状态机。
+ 	
 * `HtmlTreeBuilder`
 
 	语法分析，通过token构建DOM树的类。
@@ -17,34 +33,23 @@ Jsoup代码解读之五-parser(中)
 * `HtmlTreeBuilderState`
 
 	语法分析状态机。
-
-* `ParseError`
-
-	parse错误结果类。parse过程中会收集错误，并在结束时可以获取这些错误信息。
-
-* `ParseErrorList`
-
-	parse错误容器。
-
-* `CharacterReader`
-
-	字符输入器，对读取字符的逻辑的封装。
-
-* `Token` 
-	
-	保存单个的词法分析结果。
-	
-* `Tokeniser` 
-
-	保存词法分析过程的状态及结果。
-	
-* `TokeniserState`
-
- 	用枚举实现的词法分析状态机。
  	
 * `TokenQueue`
 
 	虽然披了个Token的马甲，其实是在query的时候用到，留到select部分再讲。
 
+## 词法分析状态机
+
+现在我们来讲讲HTML的词法分析过程。这里借用一下[http://ued.ctrip.com/blog/?p=3295](http://ued.ctrip.com/blog/?p=3295)里的图，图中描述了一个Tag标签的状态转移过程，
+
+![lexer][1]
+
+这里忽略了HTML注释、实体以及属性，只保留基本的开始/结束标签，例如下面的HTML:
+
+	<div>test</div>
+
+Jsoup里词法分析远比这个复杂，我从里面抽取出了对应的部分，就成了我们的miniSoupLexer：
 
 
+
+  [1]: http://taligarsiel.com/Projects/image019.png
