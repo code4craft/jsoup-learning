@@ -3,10 +3,8 @@ package org.jsoup.parser;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
+ * 词法分析过程的状态及结果保存。
  * Readers the input stream into tokens.
  */
 class Tokeniser {

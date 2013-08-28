@@ -1,4 +1,4 @@
-package us.codecraft.learning;
+package us.codecraft.learning.automata;
 
 /**
  * @author code4crafter@gmail.com

@@ -5,6 +5,7 @@ import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 
 /**
+ * 词法分析结果。
  * Parse tokens for the Tokeniser.
  */
 abstract class Token {
