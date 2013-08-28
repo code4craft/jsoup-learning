@@ -6,9 +6,11 @@ package org.jsoup.parser;
  */
 enum MiniSoupTokeniserState implements ITokeniserState {
     /**
-     * 初始状态,什么层级都没有的状态
+     * 什么层级都没有的状态
      * ⬇
-     * <xxx></xxx>
+     * <div>test</div>
+     *      ⬇
+     * <div>test</div>
      */
     Data {
         // in data state, gather characters until a character reference or tag is found
@@ -27,6 +29,10 @@ enum MiniSoupTokeniserState implements ITokeniserState {
             }
         }
     },
+    /**
+     * ⬇
+     * <div>test</div>
+     */
     TagOpen {
         // from < in data
         public void read(Tokeniser t, CharacterReader r) {
@@ -47,6 +53,10 @@ enum MiniSoupTokeniserState implements ITokeniserState {
             }
         }
     },
+    /**
+     *           ⬇
+     * <div>test</div>
+     */
     EndTagOpen {
         public void read(Tokeniser t, CharacterReader r) {
             if (r.isEmpty()) {
@@ -59,6 +69,10 @@ enum MiniSoupTokeniserState implements ITokeniserState {
             }
         }
     },
+    /**
+     *  ⬇
+     * <div>test</div>
+     */
     TagName {
         // from < or </ in data, will have start or end tag pending
         public void read(Tokeniser t, CharacterReader r) {
@@ -79,8 +93,6 @@ enum MiniSoupTokeniserState implements ITokeniserState {
     public abstract void read(Tokeniser t, CharacterReader r);
 
     private static final char nullChar = '\u0000';
-    private static final char replacementChar = Tokeniser.replacementChar;
-    private static final String replacementStr = String.valueOf(Tokeniser.replacementChar);
     private static final char eof = CharacterReader.EOF;
 
 }
