@@ -30,18 +30,77 @@ Jsoup的词法分析和语法分析都用到了状态机。状态机可以理解
 
 ![state machine][3]
 
-状态机本身是一个编程模型，这里我们尝试用程序去实现它，那么最直接的例子大概是这样：
+状态机本身是一个编程模型，这里我们尝试用程序去实现它，那么最直接的方式大概是这样：
+
+	<!-- lang: java -->
+    public void process(StringReader reader) throws StringReader.EOFException {
+        char ch;
+        switch (state) {
+            case Init:
+                ch = reader.read();
+                if (ch == 'a') {
+                    state = State.AfterA;
+                    accum.append(ch);
+                }
+                break;
+            case AfterA:
+                ...
+                break;
+            case AfterB:
+                ...
+                break;
+            case Accept:
+                ...
+                break;
+        }
+    }
+
+这样写简单的状态机倒没有问题，但是复杂情况下就有点难受了。还有一种标准的状态机解法，先建立状态转移表，然后使用这个表建立状态机。这个方法的问题就是，只能做纯状态转移，无法在代码级别操作输入输出。
+
+Jsoup里则使用了状态模式来实现状态机，初次看到时，确实让人眼前一亮。状态模式是设计模式的一种，它将状态和对应的行为绑定在一起。而在状态机的实现过程中，使用它来实现状态转移时的处理再合适不过了。
+
+"a[b]*"的例子的状态模式实现如下，这里采用了与Jsoup相同的方式，用到了枚举来实现状态模式：
+
+    public class StateModelABStateMachine implements ABStateMachine {
+
+        State state;
+
+        StringBuilder accum;
+
+        enum State {
+            Init {
+                @Override
+                public void process(StateModelABStateMachine stateModelABStateMachine, StringReader reader) throws StringReader.EOFException {
+                    char ch = reader.read();
+                    if (ch == 'a') {
+                        stateModelABStateMachine.state = AfterA;
+                        stateModelABStateMachine.accum.append(ch);
+                    }
+                }
+            },
+            Accept {
+                ...
+            },
+            AfterA {
+                ...
+            },
+            AfterB {
+                ...
+            };
+
+            public void process(StateModelABStateMachine stateModelABStateMachine, StringReader reader) throws StringReader.EOFException {
+            }
+        }
+
+        public void process(StringReader reader) throws StringReader.EOFException {
+            state.process(this, reader);
+        }
+    }
 
 
+PS:我在github上fork了一份Jsoup的代码，把这系列文章提交了上去，并且给一些代码增加了中文注释，有兴趣的可以看看[https://github.com/code4craft/jsoup](https://github.com/code4craft/jsoup)。本文中提到的几种状态机的完整实现在这个仓库的[https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning](https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning)路径下。
 
-### HTML语法
-
-XML的BNF
-
-[http://xml.coverpages.org/xmlBNF.html](http://xml.coverpages.org/xmlBNF.html)
-
-## Jsoup中的状态机流程
-
+下一篇文章将从Jsoup的词法分析器开始来讲状态机的使用。
 
 
 

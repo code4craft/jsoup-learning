@@ -10,7 +10,6 @@ public class StateModelABStateMachine implements ABStateMachine {
     StringBuilder accum;
 
     enum State {
-
         Init {
             @Override
             public void process(StateModelABStateMachine stateModelABStateMachine, StringReader reader) throws StringReader.EOFException {
