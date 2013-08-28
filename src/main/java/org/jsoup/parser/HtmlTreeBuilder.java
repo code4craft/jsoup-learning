@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 通过token构建DOM树。
  * HTML Tree Builder; creates a DOM from Tokens.
  */
 class HtmlTreeBuilder extends TreeBuilder {

@@ -5,6 +5,7 @@ import org.jsoup.helper.Validate;
 import java.util.Locale;
 
 /**
+ * 字符输入器，对读取字符的逻辑的封装。
  CharacterReader consumes tokens off a string. To replace the old TokenQueue.
  */
 class CharacterReader {

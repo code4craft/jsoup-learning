@@ -3,6 +3,7 @@ package org.jsoup.parser;
 import java.util.ArrayList;
 
 /**
+ * parse错误结果容器
  * A container for ParseErrors.
  * 
  * @author Jonathan Hedley

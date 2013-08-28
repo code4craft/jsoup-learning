@@ -7,6 +7,7 @@ import org.jsoup.nodes.Node;
 import java.util.List;
 
 /**
+ * HTML parser的facade，封装了常用的parse函数。
  * Parses HTML into a {@link org.jsoup.nodes.Document}. Generally best to use one of the  more convenient parse methods
  * in {@link org.jsoup.Jsoup}.
  */
