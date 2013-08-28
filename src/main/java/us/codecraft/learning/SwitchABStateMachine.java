@@ -9,7 +9,7 @@ public class SwitchABStateMachine implements ABStateMachine {
         Init, Accept, AfterA, AfterB;
     }
 
-    private StringBuilder acum = new StringBuilder();
+    private StringBuilder accum = new StringBuilder();
 
     private State state = State.Init;
 
@@ -20,13 +20,13 @@ public class SwitchABStateMachine implements ABStateMachine {
                 ch = reader.read();
                 if (ch == 'a') {
                     state = State.AfterA;
-                    acum.append(ch);
+                    accum.append(ch);
                 }
                 break;
             case AfterA:
                 ch = reader.read();
                 if (ch == 'b') {
-                    acum.append(ch);
+                    accum.append(ch);
                     state = State.AfterB;
                 } else {
                     state = State.Accept;
@@ -35,15 +35,15 @@ public class SwitchABStateMachine implements ABStateMachine {
             case AfterB:
                 ch = reader.read();
                 if (ch == 'b') {
-                    acum.append(ch);
+                    accum.append(ch);
                     state = State.AfterB;
                 } else {
                     state = State.Accept;
                 }
                 break;
             case Accept:
-                System.out.println("find " + acum.toString());
-                acum = new StringBuilder();
+                System.out.println("find " + accum.toString());
+                accum = new StringBuilder();
                 state = State.Init;
                 reader.unread();
                 break;
