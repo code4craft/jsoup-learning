@@ -22,6 +22,8 @@ Fork of Jsoup in [https://github.com/jhy/jsoup](https://github.com/jhy/jsoup)
 
 ### [Jsoup代码解读之七-select](https://github.com/code4craft/jsoup/blob/master/blogs/jsoup7.md)
 
+### [Jsoup代码解读之八-防御XSS攻击](https://github.com/code4craft/jsoup/blob/master/blogs/jsoup8.md)
+
 -------
 
 ## 协议：

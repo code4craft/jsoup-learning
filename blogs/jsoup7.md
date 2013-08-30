@@ -11,7 +11,7 @@ Jsoup的select包里，类结构如下：
 
 ![uml][2]
 
-在最开始介绍的Jsoup的时候，就已经说过`NodeVisitor`和`Selector`了。`Selector`是select部分的对外facade，而`NodeVisitor`则是遍历树的底层API，CSS Selector也是根据`NodeVisitor`实现的遍历。
+在最开始介绍Jsoup的时候，就已经说过`NodeVisitor`和`Selector`了。`Selector`是select部分的对外facade，而`NodeVisitor`则是遍历树的底层API，CSS Selector也是根据`NodeVisitor`实现的遍历。
 
 Jsoup的select核心是`Evaluator`。Selector所传递的表达式，会经过`QueryParser`，最终编译成一个`Evaluator`。`Evaluator`是一个抽象类，它只有一个方法：
 
@@ -48,7 +48,7 @@ Evaluator的设计简洁明了，所有的Selector表达式单词都会编译到
     }
 ```    
 
-这里Parent包含了一个`evaluator`属性，会根据这个evaluator去验证所有父节点。注意Parent是可以嵌套的，所以这个表达式"div ul li"最终会编译成`And(And(Parent(Tag("div"))，Tag("ul")),Tag("li"))`这样的Evaluator组合。
+这里Parent包含了一个`evaluator`属性，会根据这个evaluator去验证所有父节点。注意Parent是可以嵌套的，所以这个表达式"div ul li"最终会编译成`And(Parent(And(Parent(Tag("div"))，Tag("ul")),Tag("li")))`这样的Evaluator组合。
 
 select部分比想象的要简单，代码可读性也很高。经过了parser部分的研究，这部分应该算是驾轻就熟了。
 
