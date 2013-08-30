@@ -3,7 +3,9 @@ Jsoup代码解读之七-实现一个CSS Selector
 
 ![street fighter][1]
 
-当当当！终于来到了Jsoup的特色：CSS Selector部分。selector也是[webmagic](https://github.com/code4craft/webmagic)开发的一个重点。附上一张street fighter的图，希望以后webmagic也能挑战Jsoup!
+当当当！终于来到了Jsoup的特色：CSS Selector部分。selector也是我写的爬虫框架[webmagic](https://github.com/code4craft/webmagic)开发的一个重点。附上一张street fighter的图，希望以后webmagic也能挑战Jsoup!
+
+## select机制
 
 Jsoup的select包里，类结构如下：
 
@@ -47,6 +49,16 @@ Evaluator的设计简洁明了，所有的Selector表达式单词都会编译到
 ```    
 
 这里Parent包含了一个`evaluator`属性，会根据这个evaluator去验证所有父节点。注意Parent是可以嵌套的，所以这个表达式"div ul li"最终会编译成`And(And(Parent(Tag("div"))，Tag("ul")),Tag("li"))`这样的Evaluator组合。
+
+select部分比想象的要简单，代码可读性也很高。经过了parser部分的研究，这部分应该算是驾轻就熟了。
+
+## 关于webmagic的后续打算
+
+webmagic是一个爬虫框架，它的Selector是用于抓取HTML中指定的文本，其机制和Jsoup的Evaluator非常像，只不过webmagic暂时是将Selector封装成较简单的API，而Evaluator直接上了表达式。之前也考虑过自己定制DSL来写一个HTML，现在看了Jsoup的源码，实现能力算是有了，但是引入DSL，实现只是一小部分，如何让DSL易写易懂才是难点。
+
+其实看了Jsoup的源码，精细程度上比webmagic要好得多了，基本每个类都对应一个真实的概念抽象，可能以后会在这方面下点工夫。
+
+下篇文章将讲最后一部分：白名单及HTML过滤机制。
 
 [1]: http://static.oschina.net/uploads/space/2013/0830/180244_r1Vb_190591.jpg
 
