@@ -8,6 +8,7 @@ Jsoup是Java世界用作html解析和过滤的不二之选。支持将html解析
 
 Jsoup的代码相当简洁，Jsoup总共53个类，且没有任何第三方包的依赖，对比最终发行包9.8M的SAXON，实在算得上是短小精悍了。
 
+```shell
     jsoup
     ├── examples #样例，包括一个将html转为纯文本和一个抽取所有链接地址的例子。    
     ├── helper #一些工具类，包括读取数据、处理连接以及字符串转换的工具
@@ -15,6 +16,7 @@ Jsoup的代码相当简洁，Jsoup总共53个类，且没有任何第三方包�
     ├── parser #解析html并转换为DOM树
     ├── safety #安全相关，包括白名单及html过滤
     └── select #选择器，支持CSS Selector以及NodeVisitor格式的遍历
+```
     
 ## 使用
 
