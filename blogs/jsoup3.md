@@ -14,7 +14,7 @@ Jsoup官方说明里，一个重要的功能就是***output tidy HTML***。这�
 
 这里要补充一下HTML标签的知识。HTML Tag可以分为block和inline两类。关于Tag的inline和block的定义可以参考[http://www.w3schools.com/html/html_blocks.asp](http://www.w3schools.com/html/html_blocks.asp)，而Jsoup的`Tag`类则是对Java开发者非常好的学习资料。
 
-    <!-- lang: java -->
+```java
     // internal static initialisers:
     // prepped from http://www.w3.org/TR/REC-html40/sgml/dtd.html and other sources
     //block tags，需要换行
@@ -46,6 +46,7 @@ Jsoup官方说明里，一个重要的功能就是***output tidy HTML***。这�
     private static final String[] preserveWhitespaceTags = {
             "pre", "plaintext", "title", "textarea"
     };
+```
 
 另外，Jsoup的`Entities`类里包含了一些HTML实体转义的东西。这些转义的对应数据保存在`entities-full.properties`和`entities-base.properties`里。
 
@@ -57,22 +58,24 @@ Jsoup官方说明里，一个重要的功能就是***output tidy HTML***。这�
 
 `Document.toString()`=>`Document.outerHtml()`=>`Element.html()`，最终`Element.html()`又会循环调用所有子元素的`outerHtml()`，拼接起来作为输出。
 
-    <!-- lang: java -->
+```java
     private void html(StringBuilder accum) {
         for (Node node : childNodes)
             node.outerHtml(accum);
     }
+```
 
 而`outerHtml()`会使用一个`OuterHtmlVisitor`对所以子节点做遍历，并拼装起来作为结果。
 
-    <!-- lang: java -->
+```java
 	protected void outerHtml(StringBuilder accum) {
         new NodeTraversor(new OuterHtmlVisitor(accum, getOutputSettings())).traverse(this);
     }
-    
+```
+
 OuterHtmlVisitor会对所有子节点做遍历，并调用`node.outerHtmlHead()`和`node.outerHtmlTail`两个方法。
     
-    <!-- lang: java -->
+```java
     private static class OuterHtmlVisitor implements NodeVisitor {
         private StringBuilder accum;
         private Document.OutputSettings out;
@@ -86,10 +89,11 @@ OuterHtmlVisitor会对所有子节点做遍历，并调用`node.outerHtmlHead()`
                 node.outerHtmlTail(accum, depth, out);
         }
     }
+```
 
 我们终于找到了真正工作的代码，`node.outerHtmlHead()`和`node.outerHtmlTail`。Jsoup里每种Node的输出方式都不太一样，这里只讲讲两种主要节点：`Element`和`TextNode`。`Element`是格式化的主要对象，它的两个方法代码如下：
 
-    <!-- lang: java -->
+```java
     void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out) {
         if (accum.length() > 0 && out.prettyPrint()
                 && (tag.formatAsBlock() || (parent() != null && parent().tag().formatAsBlock()) || out.outline()) )
@@ -116,14 +120,16 @@ OuterHtmlVisitor会对所有子节点做遍历，并调用`node.outerHtmlHead()`
             accum.append("</").append(tagName()).append(">");
         }
     }
+```
 
 而ident方法的代码只有一行：
 
-    <!-- lang: java -->
+```java
     protected void indent(StringBuilder accum, int depth, Document.OutputSettings out) {
         //out.indentAmount()是缩进长度，默认是1
         accum.append("\n").append(StringUtil.padding(depth * out.indentAmount()));
     }
+```
     
 代码简单明了，就没什么好说的了。值得一提的是，`StringUtil.padding()`方法为了减少字符串生成，把常用的缩进保存到了一个数组中。
 

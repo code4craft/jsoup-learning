@@ -32,7 +32,7 @@ Jsoup的词法分析和语法分析都用到了状态机。状态机可以理解
 
 状态机本身是一个编程模型，这里我们尝试用程序去实现它，那么最直接的方式大概是这样：
 
-	<!-- lang: java -->
+```java
     public void process(StringReader reader) throws StringReader.EOFException {
         char ch;
         switch (state) {
@@ -54,6 +54,7 @@ Jsoup的词法分析和语法分析都用到了状态机。状态机可以理解
                 break;
         }
     }
+```
 
 这样写简单的状态机倒没有问题，但是复杂情况下就有点难受了。还有一种标准的状态机解法，先建立状态转移表，然后使用这个表建立状态机。这个方法的问题就是，只能做纯状态转移，无法在代码级别操作输入输出。
 
@@ -61,6 +62,7 @@ Jsoup里则使用了状态模式来实现状态机，初次看到时，确实让
 
 "a[b]*"的例子的状态模式实现如下，这里采用了与Jsoup相同的方式，用到了枚举来实现状态模式：
 
+```java
     public class StateModelABStateMachine implements ABStateMachine {
 
         State state;
@@ -96,7 +98,7 @@ Jsoup里则使用了状态模式来实现状态机，初次看到时，确实让
             state.process(this, reader);
         }
     }
-
+```
 
 PS:我在github上fork了一份Jsoup的代码，把这系列文章提交了上去，并且给一些代码增加了中文注释，有兴趣的可以看看[https://github.com/code4craft/jsoup](https://github.com/code4craft/jsoup)。本文中提到的几种状态机的完整实现在这个仓库的[https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning](https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning)路径下。
 

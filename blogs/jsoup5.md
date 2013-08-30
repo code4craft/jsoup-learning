@@ -50,6 +50,7 @@ Jsoup代码解读之五-parser(中)
 
 Jsoup里词法分析比较复杂，我从里面抽取出了对应的部分，就成了我们的miniSoupLexer(这里省略了部分代码，完整代码可以看这里[`MiniSoupTokeniserState`](https://github.com/code4craft/jsoup/blob/master/src/main/java/org/jsoup/parser/MiniSoupTokeniserState.java))：
 
+```java
 	enum MiniSoupTokeniserState implements ITokeniserState {
 	    /**
 	     * 什么层级都没有的状态
@@ -98,6 +99,7 @@ Jsoup里词法分析比较复杂，我从里面抽取出了对应的部分，就
 	    };
 
 	}
+```
 	
 参考这个程序，可以看到Jsoup的词法分析的大致思路。分析器本身的编写是比较繁琐的过程，涉及属性值(区分单双引号)、DocType、注释、HTML实体，以及一些错误情况。不过了解了其思路，代码实现也是按部就班的过程。
 

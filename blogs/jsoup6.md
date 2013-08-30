@@ -10,7 +10,7 @@ Jsoup代码解读之六-parser(下)
 
 `TreeBuilder`同样是一个facade对象，真正进行语法解析的是以下一段代码：
 	
-	<!-- lang: java -->
+```java
     protected void runParser() {
         while (true) {
             Token token = tokeniser.read();
@@ -21,10 +21,11 @@ Jsoup代码解读之六-parser(下)
                 break;
         }
     }
+```
 
 `TreeBuilder`有两个子类，`HtmlTreeBuilder`和`XmlTreeBuilder`。`XmlTreeBuilder`自然是构建XML树的类，实现颇为简单，基本上是维护一个栈，并根据不同Token插入节点即可：
 
-	<!-- lang: java -->
+```java
 	@Override
     protected boolean process(Token token) {
         // start tag, end tag, doctype, comment, character, eof
@@ -51,10 +52,11 @@ Jsoup代码解读之六-parser(下)
         }
         return true;
     }
+```
     
 `insertNode`的代码大致是这个样子(为了便于展示，对方法进行了一些整合)：
 
-	<!-- lang: java -->
+```java
     Element insert(Token.StartTag startTag) {
         Tag tag = Tag.valueOf(startTag.name());
         Element el = new Element(tag, baseUri, startTag.attributes);
@@ -68,12 +70,13 @@ Jsoup代码解读之六-parser(下)
         }
         return el;
     }
+```
 
 ## HTML解析状态机
 
 相比`XmlTreeBuilder`，`HtmlTreeBuilder`则实现较为复杂，除了类似的栈结构以外，还用到了`HtmlTreeBuilderState`来构建了一个状态机来分析HTML。这是为什么呢？不妨看看`HtmlTreeBuilderState`到底用到了哪些状态吧（在代码中中用&lt;!-- State: --\&gt;标明状态）：
 
-    <!-- lang: html -->
+```html
     <!-- State: Initial -->
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <!-- State: BeforeHtml -->
@@ -113,6 +116,7 @@ Jsoup代码解读之六-parser(下)
         </tr>    
     </table>
     </html>
+```
 
 这里可以看到，HTML标签是有嵌套要求的，例如`<tr>`,`<td>`需要组合`<table>`来使用。根据Jsoup的代码，可以发现，`HtmlTreeBuilderState`做了以下一些事情：
 
@@ -120,7 +124,7 @@ Jsoup代码解读之六-parser(下)
 	
 	例如`tr`没有嵌套在`table`标签内，则是一个语法错误。当`InBody`状态直接出现以下tag时，则出错。Jsoup里遇到这种错误，会发现这个Token的解析并记录错误，然后继续解析下面内容，并不会直接退出。
 	
-		<!-- lang: java -->
+```java
 	    InBody {
 	        boolean process(Token t, HtmlTreeBuilder tb) {
 				if (StringUtil.in(name,
@@ -129,26 +133,29 @@ Jsoup代码解读之六-parser(下)
 				return false;
 				}
 	        }
+```
 	
 * ### 标签补全
 
 	例如`head`标签没有闭合，就写入了一些只有body内才允许出现的标签，则自动闭合`</head>`。`HtmlTreeBuilderState`有的方法`anythingElse()`就提供了自动补全标签，例如`InHead`状态的自动闭合代码如下：
 	
-			<!-- lang: java -->
+```java
 	        private boolean anythingElse(Token t, TreeBuilder tb) {
 	            tb.process(new Token.EndTag("head"));
 	            return tb.process(t);
 	        }
+```	
 	
 	还有一种标签闭合方式，例如下面的代码：
 	
-		<!-- lang: java -->
+```java
 		private void closeCell(HtmlTreeBuilder tb) {
             if (tb.inTableScope("td"))
                 tb.process(new Token.EndTag("td"));
             else
                 tb.process(new Token.EndTag("th")); // only here if th or td in scope
         }
+```
 
 ## 实例研究
 
@@ -160,7 +167,7 @@ Jsoup代码解读之六-parser(下)
 
 1. 漏写了开始标签，只写了结束标签
 
-		<!-- lang: java -->
+```java
 		case EndTag:
 			if (StringUtil.in(name,"div","dl", "fieldset", "figcaption", "figure", "footer", "header", "pre", "section", "summary", "ul")) {                
 				if (!tb.inScope(name)) {
@@ -168,6 +175,7 @@ Jsoup代码解读之六-parser(下)
 				return false;
 				} 
 			}	
+```
 			
 	恭喜你，这个`</div>`会被当做错误处理掉，于是你的页面就毫无疑问的乱掉了！当然，如果单纯多写了一个`</div>`，好像也不会有什么影响哦？(记得有人跟我讲过为了防止标签未闭合，而在页面底部多写了几个`</div>`的故事)
 	
