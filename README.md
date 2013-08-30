@@ -20,6 +20,8 @@ Fork of Jsoup in [https://github.com/jhy/jsoup](https://github.com/jhy/jsoup)
 
 ### [Jsoup代码解读之六-parser(下)](https://github.com/code4craft/jsoup/blob/master/blogs/jsoup6.md)
 
+### [Jsoup代码解读之七-select](https://github.com/code4craft/jsoup/blob/master/blogs/jsoup7.md)
+
 -------
 
 ## 协议：
