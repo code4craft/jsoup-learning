@@ -21,6 +21,6 @@ Jsoup的select核心是`Evaluator`。`Evaluator`是一个抽象类，它只有�
 
 
 
-<!----> [1]: http://static.oschina.net/uploads/space/2013/0830/180244_r1Vb_190591.jpg
+[1]: http://static.oschina.net/uploads/space/2013/0830/180244_r1Vb_190591.jpg
 
 [2]: http://static.oschina.net/uploads/space/2013/0830/184337_j85b_190591.png
