@@ -315,7 +315,8 @@ enum HtmlTreeBuilderState {
                             tb.transition(InFrameset);
                         }
                     } else if (StringUtil.in(name,
-                            "address", "article", "aside", "blockquote", "center", "details", "dir", "div", "dl",
+                            "address", "article", "aside", "blockquote", "center", "details", "dir", "" +
+                            "div", "dl",
                             "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "menu", "nav", "ol",
                             "p", "section", "summary", "ul")) {
                         if (tb.inButtonScope("p")) {
