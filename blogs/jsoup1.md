@@ -22,6 +22,7 @@ Jsoup的入口是`Jsoup`类。examples包里提供了两个例子，解析html�
 
 这里用`ListLinks`里的例子来说明如何调用Jsoup：
 
+```java
     public static void main(String[] args) throws IOException {
         Validate.isTrue(args.length == 1, "usage: supply url to fetch");
         String url = args[0];
@@ -38,11 +39,13 @@ Jsoup的入口是`Jsoup`类。examples包里提供了两个例子，解析html�
             print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
         }
     }
+```
     
 Jsoup使用了自己的一套DOM代码体系，这里的Elements、Element等虽然名字和概念都与Java XML API`org.w3c.dom`类似，但并没有代码层面的关系。就是说你想用XML的一套API来操作Jsoup的结果是办不到的，但是正因为如此，才使得Jsoup可以抛弃xml里一些繁琐的API，使得代码更加简单。
      
 还有一种方式是通过`NodeVisitor`来遍历DOM树，这个在对整个html做分析和替换时比较有用：
 
+```java
     public interface NodeVisitor {
 
         //遍历到节点开始时，调用此方法
@@ -51,9 +54,11 @@ Jsoup使用了自己的一套DOM代码体系，这里的Elements、Element等虽
         //遍历到节点结束时(所有子节点都已遍历完)，调用此方法
         public void tail(Node node, int depth);
     }
+```
     
 `HtmlToPlainText`的例子说明了如何使用NodeVisitor来遍历DOM树，将html转化为纯文本，并将需要换行的标签替换为换行\\n：
 
+```java
     public static void main(String... args) throws IOException {
         Validate.isTrue(args.length == 1, "usage: supply url to fetch");
         String url = args[0];
@@ -75,5 +80,6 @@ Jsoup使用了自己的一套DOM代码体系，这里的Elements、Element等虽
         traversor.traverse(element);
         return formatter.toString();
     }
-    
+```
+
 下一节将从DOM结构开始对Jsoup代码进行分析。
