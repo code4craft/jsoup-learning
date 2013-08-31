@@ -22,7 +22,7 @@ Jsoup学习笔记
 	2. [词法分析](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup5.md)
 	3. [语法分析](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup6.md)
 
-5. [CSS Selector](https://github.com/code4craft/jsoup-learning/blob-learning/master/blogs/jsoup7.md)
+5. [CSS Selector](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup7.md)
 
 6. [防御XSS攻击](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup8.md)
 
