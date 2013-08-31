@@ -8,7 +8,7 @@ Jsoup代码解读之五-parser(中)
 
 * `Parser`
 
-	Jsoup parser的入口facade，封装了常用的parse静态方法。可以设置`maxErrors`，用于收集错误记录，默认是0，即不收集。与之相关的类有`ParseError`,`ParseErrorList`。基于这个功能，我写了一个[`PageErrorChecker`](https://github.com/code4craft/jsoup/tree/master/src/main/java/us/codecraft/learning/parser)来对页面做语法检查，并输出语法错误。
+	Jsoup parser的入口facade，封装了常用的parse静态方法。可以设置`maxErrors`，用于收集错误记录，默认是0，即不收集。与之相关的类有`ParseError`,`ParseErrorList`。基于这个功能，我写了一个[`PageErrorChecker`](https://github.com/code4craft/jsoup-learning/tree/master/src/main/java/us/codecraft/learning/parser)来对页面做语法检查，并输出语法错误。
 
 * `Token` 
 	
@@ -48,7 +48,7 @@ Jsoup代码解读之五-parser(中)
 
 	<div>test</div>
 
-Jsoup里词法分析比较复杂，我从里面抽取出了对应的部分，就成了我们的miniSoupLexer(这里省略了部分代码，完整代码可以看这里[`MiniSoupTokeniserState`](https://github.com/code4craft/jsoup/blob/master/src/main/java/org/jsoup/parser/MiniSoupTokeniserState.java))：
+Jsoup里词法分析比较复杂，我从里面抽取出了对应的部分，就成了我们的miniSoupLexer(这里省略了部分代码，完整代码可以看这里[`MiniSoupTokeniserState`](https://github.com/code4craft/jsoup-learning/blob/master/src/main/java/org/jsoup/parser/MiniSoupTokeniserState.java))：
 
 ```java
 	enum MiniSoupTokeniserState implements ITokeniserState {
