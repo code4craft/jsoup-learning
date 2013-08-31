@@ -1,7 +1,6 @@
 Jsoup代码解读之二-DOM相关对象
 -------
-之前在文章中说到，Jsoup使用了一套自己的DOM对象体系，和Java XML API互不兼容。这样做的好处是从XML的API里解脱出来，使得代码精炼了很多。这篇文章会说明Jsoup的DOM结构，DOM的遍历方式，并结合者两个基础，分析一下Jsoup的HTML输出功能。
-
+之前在文章中说到，Jsoup使用了一套自己的DOM对象体系，和Java XML API互不兼容。这样做的好处是从XML的API里解脱出来，使得代码精炼了很多。这篇文章会说明Jsoup的DOM结构，DOM的遍历方式。在下一篇文章，我会并结合这两个基础，分析一下Jsoup的HTML输出功能。
 ## DOM结构相关类
 
 我们先来看看nodes包的类图：
