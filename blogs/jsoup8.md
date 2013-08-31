@@ -43,6 +43,7 @@ public class Whitelist {
 
 而`Cleaner`是过滤的执行者。不出所料，Cleaner内部定义了`CleaningVisitor`来进行标签的过滤。CleaningVisitor的过滤过程并不改变原始DOM树的值，而是将符合条件的属性，加入到`Element destination`里去。
 
+```java
     private final class CleaningVisitor implements NodeVisitor {
         private int numDiscarded = 0;
         private final Element root;
@@ -82,6 +83,8 @@ public class Whitelist {
             }
         }
     }
+```
+    
 
 ## 结束语
 
