@@ -74,7 +74,7 @@ Jsoup代码解读之六-parser(下)
 
 ## HTML解析状态机
 
-相比`XmlTreeBuilder`，`HtmlTreeBuilder`则实现较为复杂，除了类似的栈结构以外，还用到了`HtmlTreeBuilderState`来构建了一个状态机来分析HTML。这是为什么呢？不妨看看`HtmlTreeBuilderState`到底用到了哪些状态吧（在代码中中用&lt;!-- State: --\&gt;标明状态）：
+相比`XmlTreeBuilder`，`HtmlTreeBuilder`则实现较为复杂，除了类似的栈结构以外，还用到了`HtmlTreeBuilderState`来构建了一个状态机来分析HTML。这是为什么呢？不妨看看`HtmlTreeBuilderState`到底用到了哪些状态吧（在代码中中用`<!-- State: -->`标明状态）：
 
 ```html
     <!-- State: Initial -->
@@ -146,7 +146,7 @@ Jsoup代码解读之六-parser(下)
 	        }
 ```	
 	
-	还有一种标签闭合方式，例如下面的代码：
+还有一种标签闭合方式，例如下面的代码：
 	
 ```java
 		private void closeCell(HtmlTreeBuilder tb) {
