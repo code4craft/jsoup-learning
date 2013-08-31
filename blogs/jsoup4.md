@@ -100,7 +100,7 @@ Jsoup里则使用了状态模式来实现状态机，初次看到时，确实让
     }
 ```
 
-本文中提到的几种状态机的完整实现在这个仓库的[https://github.com/code4craft/jsoup-learning/tree/master/src/main/java/us/codecraft/learning](https://github.com/code4craft/jsoup-learning/tree/master/src/main/java/us/codecraft/learning)路径下。
+本文中提到的几种状态机的完整实现在这个仓库的[https://github.com/code4craft/jsoup-learning/tree/master/src/main/java/us/codecraft/learning/automata](https://github.com/code4craft/jsoup-learning/tree/master/src/main/java/us/codecraft/learning/automata)路径下。
 
 下一篇文章将从Jsoup的词法分析器开始来讲状态机的使用。
 
