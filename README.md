@@ -16,13 +16,13 @@ Jsoup学习笔记
 
 3. [Document的输出](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup3.md)
 
-4. [parser(上)](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup4.md)
+4. [语法分析parser](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup4.md)
 
 	1. [语法分析与状态机基础](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup4.md)
 	2. [词法分析](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup5.md)
 	3. [语法分析](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup6.md)
 
-5. [select](https://github.com/code4craft/jsoup/blob-learning/master/blogs/jsoup7.md)
+5. [CSS Selector](https://github.com/code4craft/jsoup-learning/blob-learning/master/blogs/jsoup7.md)
 
 6. [防御XSS攻击](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup8.md)
 
