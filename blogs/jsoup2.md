@@ -85,56 +85,7 @@ Node还有一些方法，例如`outerHtml()`，用作节点及文档HTML的输�
 
 实际上，Jsoup的Selector机制也是基于`NodeVisitor`来实现的，可以说`NodeVisitor`是更加底层和灵活的API。
 
-## Document的输出
-
-Jsoup官方说明里，一个重要的功能就是***output tidy HTML***。这里我们看看Jsoup是如何输出HTML的。
-
-在Jsoup里，直接调用`Document.toString()`(继承自Element)，即可对文档进行输出。里面的继承和互相调用关系略微复杂，大概是这样子：
-
-`Document.toString()`=>`Document.outerHtml()`=>`Element.html()`，最终`Element.html()`又会循环调用所有子元素的`outerHtml()`，拼接起来作为输出。
-
-```java
-    private void html(StringBuilder accum) {
-        for (Node node : childNodes)
-            node.outerHtml(accum);
-    }
-```
-
-而`outerHtml()`会使用一个`OuterHtmlVisitor`对所以子节点做遍历，并拼装起来作为结果。
-
-```java
-	protected void outerHtml(StringBuilder accum) {
-        new NodeTraversor(new OuterHtmlVisitor(accum, getOutputSettings())).traverse(this);
-    }
-```
-    
-OuterHtmlVisitor会对所有子节点做遍历，并调用`node.outerHtmlHead()`和`node.outerHtmlTail`两个方法。
-
-```java    
-    private static class OuterHtmlVisitor implements NodeVisitor {
-        private StringBuilder accum;
-        private Document.OutputSettings out;
-
-        public void head(Node node, int depth) {
-            node.outerHtmlHead(accum, depth, out);
-        }
-
-        public void tail(Node node, int depth) {
-            if (!node.nodeName().equals("#text")) // saves a void hit.
-                node.outerHtmlTail(accum, depth, out);
-        }
-    }
-```
-
-好了，现在我们找到了真正干活的代码，`node.outerHtmlHead()`和`node.outerHtmlTail`。分析代码前，我们不妨先想想，"tidy HTML"到底包括哪些东西：
-
-* 换行，块级标签习惯上都会独占一行
-* 缩进，根据HTML标签嵌套层数，行首缩进会不同
-* 严格的标签闭合，如果是可以自闭合的标签并且没有内容，则进行自闭合
-* HTML实体的转义
-
-
-
+在下一篇博客我会讲讲Document的输出。
 
 
 
