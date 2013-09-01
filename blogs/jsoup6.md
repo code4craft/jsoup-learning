@@ -167,7 +167,7 @@ Jsoup代码解读之六-parser(下)
 
 1. 漏写了开始标签，只写了结束标签
 
-```java
+	```java
 		case EndTag:
 			if (StringUtil.in(name,"div","dl", "fieldset", "figcaption", "figure", "footer", "header", "pre", "section", "summary", "ul")) {                
 				if (!tb.inScope(name)) {
@@ -175,7 +175,7 @@ Jsoup代码解读之六-parser(下)
 				return false;
 				} 
 			}	
-```
+	```
 			
 	恭喜你，这个`</div>`会被当做错误处理掉，于是你的页面就毫无疑问的乱掉了！当然，如果单纯多写了一个`</div>`，好像也不会有什么影响哦？(记得有人跟我讲过为了防止标签未闭合，而在页面底部多写了几个`</div>`的故事)
 	
