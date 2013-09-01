@@ -26,6 +26,10 @@ Jsoup学习笔记
 
 6. [防御XSS攻击](https://github.com/code4craft/jsoup-learning/blob/master/blogs/jsoup8.md)
 
+7. [为Jsoup增加XPath选择功能](https://github.com/code4craft/xsoup)
+	
+	Jsoup默认没有XPath功能，我写了一个项目xsoup，可以使用XPath来选择HTML文本。Java里较常用的XPath抽取器是HtmlCleaner，Xsoup的性能比它快了一倍。
+
 -------
 
 ## 协议：
