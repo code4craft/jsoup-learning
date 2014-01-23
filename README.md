@@ -37,3 +37,6 @@ Jsoup学习笔记
 相关代码遵循MIT协议。
 
 文档遵循CC-BYNC协议。
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/code4craft/jsoup-learning/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
