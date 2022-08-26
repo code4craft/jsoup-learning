@@ -12,7 +12,7 @@ Jsoup官方说明里，一个重要的功能就是***output tidy HTML***。这�
 * 严格的标签闭合，如果是可以自闭合的标签并且没有内容，则进行自闭合
 * HTML实体的转义
 
-这里要补充一下HTML标签的知识。HTML Tag可以分为block和inline两类。关于Tag的inline和block的定义可以参考[http://www.w3schools.com/html/html_blocks.asp](http://www.w3schools.com/html/html_blocks.asp)，而Jsoup的`Tag`类则是对Java开发者非常好的学习资料。
+这里要补充一下HTML标签的知识 [HTML标签列表](https://www.scaler.com/topics/html/html-tags-list/)。HTML Tag可以分为block和inline两类。关于Tag的inline和block的定义可以参考[http://www.w3schools.com/html/html_blocks.asp](http://www.w3schools.com/html/html_blocks.asp)，而Jsoup的`Tag`类则是对Java开发者非常好的学习资料。
 
 ```java
     // internal static initialisers:
